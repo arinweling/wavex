@@ -1,0 +1,49 @@
+# ResNet-18 (ImageNet pretrained) - soft polar Fourier minimal explanation config
+# Designed for notebooks/minimal_frequency_explanation.ipynb
+#
+# Goal:
+# Learn a shared soft mask over polar Fourier bins while preserving classifier behavior.
+# Minimality is encouraged by lambda_bins (soft activity penalty).
+
+backbone: resnet18
+pretrained: true
+dataset: imagenet
+image_size: 224
+
+# Data/input behavior
+single_image_mode: true
+single_image_index: 0
+fixed_class_label:
+filter_class:
+
+batch_size: 4
+lr: 1.0e-6
+epochs: 300
+viz_every: 10
+
+# Soft polar Fourier controls
+fft_radial_bins: 16
+fft_angular_bins: 16
+mask_temperature: 0.25
+mask_threshold: 0.5
+
+# Loss weights
+# lambda_act: 1000.0
+# lambda_CE: 40.0
+# lambda_KL: 1000.0
+# lambda_rob: 0.0
+# lambda_bins: 100000.0
+# lambda_energy: 100000.0
+# lambda_entropy: 5000.0
+
+lambda_act: 1.0
+lambda_CE:  4.0       # high — we want the explanation to preserve the top-1 class
+lambda_KL:  0.4
+lambda_rob: 6.0
+lambda_entropy: 0.3
+lambda_bins: 15.0  # used only in pixel_mask_mode
+lambda_energy: 1500.0  # used only in pixel_mask_mode
+
+# Metrics/eval settings
+ins_del_steps: 25
+metrics_curve_max_samples: 4

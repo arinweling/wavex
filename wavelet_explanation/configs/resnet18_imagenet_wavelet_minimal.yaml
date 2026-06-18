@@ -1,0 +1,41 @@
+# ResNet-18 (ImageNet pretrained) - soft subband wavelet minimal explanation config
+# Designed for notebooks/minimal_wavelet_explanation.ipynb
+#
+# Goal:
+# Learn a shared soft mask over wavelet subbands while preserving classifier behavior.
+# Minimality is encouraged by lambda_bins (soft activity penalty).
+
+backbone: resnet18
+pretrained: true
+dataset: imagenet
+image_size: 224
+
+# Data/input behavior
+single_image_mode: true
+single_image_index: 0
+fixed_class_label: 
+filter_class:
+
+batch_size: 4
+lr: 1.0e-4
+epochs: 300
+viz_every: 10
+
+# Wavelet subband controls
+wavelet_levels: 5
+wavelet_name: db8
+mask_temperature: 0.15
+mask_threshold: 0.5
+
+# Loss weights
+lambda_act: 1000.0
+lambda_CE: 10000.0
+lambda_KL: 4.0
+lambda_rob: 0.0
+lambda_bins: 20000.0
+lambda_energy: 9000.0
+lambda_entropy: 50000.0
+
+# Metrics/eval settings
+ins_del_steps: 25
+metrics_curve_max_samples: 4
